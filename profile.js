@@ -2,9 +2,9 @@
 window.profile = {
   defaultLanguage: "en",
   sampleMode: true,
-  name: { en: "Your Name", zh: "你的姓名" },
-  position: { en: "Your position", zh: "你的身份或职务" },
-  institution: { en: "Your institution", zh: "你的学校或机构" },
+  name: { en: "Your Name", zh: "Xin Tang (唐鑫)" },
+  position: { en: "Your position", zh: "Master's" },
+  institution: { en: "Your institution", zh: "Shanxi University" },
   photo: "",
   // 联系链接可留空。简历也可以指向站内文件，例如 "assets/cv.pdf"。
   email: "",
