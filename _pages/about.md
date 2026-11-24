@@ -7,7 +7,9 @@ redirect_from:
   - /about.html
 ---
 
-我是山西大学计算机技术专业的硕士研究生，导师是[梁新彦老师](https://xinyanliang.github.io/)。我的研究方向包括进化计算、多模态机器学习和信号处理。
+我是山西大学计算机技术专业的硕士研究生，导师是[梁新彦老师](https://xinyanliang.github.io/)。我的研究兴趣包括进化计算、LLM4AD、LLM Agent。
+
+邮箱: tangxin3120@163.com
 
 ## 教育经历
 
