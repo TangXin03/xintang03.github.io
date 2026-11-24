@@ -4,12 +4,14 @@ const profile = window.profile;
 const labels = {
   en: {
     pageTitle: "Academic Homepage", skip: "Skip to content", navigation: "Main navigation",
-    profile: "Profile", home: "Home", news: "News", research: "Research", publications: "Publications",
+    profile: "Profile", home: "Home", education: "Education", news: "News", research: "Research", publications: "Publications",
+    advisorPrefix: "My advisor is ", advisorSuffix: ".",
     sample: "(Examples)", cv: "CV", paper: "Paper", code: "Code", otherLanguage: "中文",
   },
   zh: {
     pageTitle: "学术个人主页", skip: "跳到正文", navigation: "主导航",
-    profile: "个人资料", home: "首页", news: "最新动态", research: "研究", publications: "论文",
+    profile: "个人资料", home: "首页", education: "教育经历", news: "最新动态", research: "研究", publications: "论文",
+    advisorPrefix: "我的导师是", advisorSuffix: "。",
     sample: "（示例）", cv: "个人简历", paper: "论文", code: "代码", otherLanguage: "English",
   },
 };
@@ -71,6 +73,19 @@ function renderNews(entries) {
     if (detail) row.append(" · ", detail);
     return row;
   });
+}
+
+function renderBiography(copy) {
+  const bio = localized(profile.bio);
+  const paragraphs = (Array.isArray(bio) ? bio : [bio]).filter(Boolean).map((text) => element("p", text));
+  const advisor = localized(profile.advisor?.name);
+  if (advisor) {
+    const sentence = element("p");
+    const url = webUrl(profile.advisor.url);
+    sentence.append(copy.advisorPrefix, url ? link(advisor, url) : advisor, copy.advisorSuffix);
+    paragraphs.push(sentence);
+  }
+  get("biography").replaceChildren(...paragraphs);
 }
 
 function renderResearch(entries) {
@@ -147,9 +162,11 @@ function render() {
   document.querySelectorAll("[data-name]").forEach((node) => { node.textContent = localized(profile.name); });
   document.querySelectorAll("[data-sample]").forEach((node) => { node.hidden = !profile.sampleMode; });
 
-  const bio = localized(profile.bio);
-  const paragraphs = Array.isArray(bio) ? bio : [bio];
-  get("biography").replaceChildren(...paragraphs.filter(Boolean).map((text) => element("p", text)));
+  renderBiography(copy);
+  const educationEntries = localized(profile.education);
+  const education = Array.isArray(educationEntries) ? educationEntries.map((text) => element("li", text)) : [];
+  get("education").hidden = education.length === 0;
+  get("education-list").replaceChildren(...education);
 
   const news = renderNews(profile.news ?? []);
   get("news").hidden = news.length === 0;
@@ -158,7 +175,10 @@ function render() {
   const research = renderResearch(profile.research ?? []);
   get("publication-list").replaceChildren(...publications);
   get("research-list").replaceChildren(...research);
-  navLinks[1].hidden = publications.length === 0;
+  const publicationStatus = localized(profile.publicationStatus);
+  get("publication-status").textContent = publicationStatus;
+  get("publication-status").hidden = !publicationStatus;
+  navLinks[1].hidden = publications.length === 0 && !publicationStatus;
   navLinks[2].hidden = research.length === 0;
 
   renderProfile(copy);
