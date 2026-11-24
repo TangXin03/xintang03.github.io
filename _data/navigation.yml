@@ -1,0 +1,7 @@
+main:
+  - title: "论文"
+    url: /publications/
+  - title: "研究"
+    url: /research/
+  - title: "English"
+    url: /en/
